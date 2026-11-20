@@ -7,7 +7,7 @@
 #include <filesystem>
 #include <vector>
 
-#ifdef WINDOWS
+#ifdef _WIN32
 #include <direct.h>
 #define GetCurrentDir _getcwd
 #else
@@ -20,7 +20,7 @@ std::string get_exec_path(void) {
       return std::string(GetCurrentDir(NULL, 0));
 }
 
-std::vector<std::string> get_all_files_with_extension_in_exec_folder(std::string file_ext) {
+std::vector<std::string> GetAllFilesWithExtensionInExecFolder(std::string file_ext) {
       std::vector<std::string> files;
       std::string path(get_exec_path());
       for (auto &p : std::filesystem::recursive_directory_iterator(path)) {

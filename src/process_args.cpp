@@ -43,7 +43,7 @@ void execute_args(int arg_id) {
       if (!TryGetCandeConfig(&candeConfigFile)) { return; }
 
       if (arg_id == LIST_CPP_ARG) {
-            std::vector<std::string> files(get_all_files_with_extension_in_exec_folder(candeConfigFile.FileEndingType.c_str()));
+            std::vector<std::string> files(GetAllFilesWithExtensionInExecFolder(candeConfigFile.FileEndingType.c_str()));
             for (auto &f : files) {
                   printf("%s\n", f.c_str());
             }
@@ -79,7 +79,7 @@ void compile(CandeConfig *ccfg) {
       compile_cmd.append("-o " + ccfg->ProjectName + " ");
 
       // Add files to compile command.
-      std::vector<std::string> files(get_all_files_with_extension_in_exec_folder(".cpp"));
+      std::vector<std::string> files(GetAllFilesWithExtensionInExecFolder(".cpp"));
       for (auto &fn : files) {
             compile_cmd.append(fn + " ");
       }
@@ -93,7 +93,12 @@ void compile(CandeConfig *ccfg) {
 void execute(CandeConfig *candeConfigFile) {
 
       std::string exec_command_string;
-      exec_command_string.append("start /WAIT /B ");
+      if (_WIN32 == 1) {
+            exec_command_string.append("start /WAIT /B ");   
+      } else {
+            exec_command_string.append("./");   
+      }
+      
       exec_command_string.append(candeConfigFile->ProjectName);
       printf("Executed %s\n", exec_command_string.c_str());
       system(exec_command_string.c_str());
