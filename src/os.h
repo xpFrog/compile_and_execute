@@ -4,7 +4,7 @@
 #include <vector>
 #define WINDOWS
 #ifdef WINDOWS
-#include "dirent.h"
+#include "../include/dirent.h"
 #else
 #include <dirent.h>
 #endif

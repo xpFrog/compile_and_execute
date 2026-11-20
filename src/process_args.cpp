@@ -3,7 +3,6 @@
 #include <string.h>
 #include <string>
 #include <vector>
-#include "SimpleIni.h"
 #include "stringh.h"
 #include "os.h"
 #include "cande.h"

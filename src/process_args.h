@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleIni.h"
+#include "../include/SimpleIni.h"
 #include <string>
 
 typedef struct  {
