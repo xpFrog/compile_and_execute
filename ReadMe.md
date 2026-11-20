@@ -10,7 +10,7 @@ PROJECT_NAME=Cande.exe           ;; This is the name of the exe that is compiled
 FILE_TYPE=.cpp                   ;; This is the type of files Cande will look for in the dir.
 ```
 
-Once you have this file in the root of the project you want to compile open a terminal where this file is located and run
+Once you have this file in the root of the project you want to compile, open a terminal where this file is located and run
 ```powershell
 Cande 
 ```
