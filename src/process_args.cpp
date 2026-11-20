@@ -1,6 +1,4 @@
 #include "process_args.h"
-#include <cstdio>
-#include <cstdlib>
 #include <string>
 #include <vector>
 #include "stringh.h"

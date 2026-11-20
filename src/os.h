@@ -3,13 +3,10 @@
 #include <string>
 #include <vector>
 #ifdef _WIN32
-#include "dirent.h"
-#include "windows.h"
 #include <direct.h>
 #define GET_CURRENT_DIR _getcwd
 #define IS_WINDOWS 1
 #else
-#include <dirent.h>
 #include <unistd.h>
 #define GET_CURRENT_DIR getcwd
 #define IS_WINDOWS 0

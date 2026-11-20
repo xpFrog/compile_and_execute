@@ -1,7 +1,4 @@
 #include "os.h"
-#include <cstdio>
-#include <cstdlib>
-#include <string.h>
 #include <string>
 #include <filesystem>
 #include <vector>
