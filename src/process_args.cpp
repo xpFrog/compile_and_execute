@@ -1,4 +1,5 @@
 #include "process_args.h"
+#include <cstdio>
 #include <cstdlib>
 #include <string.h>
 #include <string>
@@ -37,29 +38,36 @@ void execute_args(int arg_id) {
 
       if (arg_id == VERSION_ARG) {
             printf("The current version of Cande is %s\n", get_cande_version());
+            return;
+      }
+
+      if (arg_id == LIST_CPP_ARG) {
+            std::vector<std::string> files(GetAllFilesWithExtensionInExecFolder(".cpp"));
+            for (auto &f : files) {
+                  printf("%s\n", f.c_str());
+            }
+            return;
       }
 
       CandeConfig candeConfigFile;
       if (!TryGetCandeConfig(&candeConfigFile)) { return; }
 
-      if (arg_id == LIST_CPP_ARG) {
-            std::vector<std::string> files(GetAllFilesWithExtensionInExecFolder(candeConfigFile.FileEndingType.c_str()));
-            for (auto &f : files) {
-                  printf("%s\n", f.c_str());
-            }
-      }
+      
 
       if (arg_id == COMPILE_ARG) {
             compile(&candeConfigFile);
+            return;
       }
       
       if (arg_id == EXECUTE_ARG) {
             execute(&candeConfigFile);
+            return;
       }
 
       if (arg_id == COMP_AND_EXEC_ARG) {
             compile(&candeConfigFile);
             execute(&candeConfigFile);
+            return;
       }
 }
 
@@ -93,7 +101,7 @@ void compile(CandeConfig *ccfg) {
 void execute(CandeConfig *candeConfigFile) {
 
       std::string exec_command_string;
-      if (_WIN32 == 1) {
+      if (IS_WINDOWS == 1) {
             exec_command_string.append("start /WAIT /B ");   
       } else {
             exec_command_string.append("./");   
@@ -107,6 +115,8 @@ void execute(CandeConfig *candeConfigFile) {
 bool TryGetCandeConfig(CandeConfig *candeConfigFile) {
       std::string iniLoadPath = get_exec_path();
       iniLoadPath.append(CANDE_CONFIG_FILE_NAME);
+      printf("%s\n", iniLoadPath.c_str());
+
 
       CSimpleIniA ini;
 	SI_Error rc = ini.LoadFile(iniLoadPath.c_str());
