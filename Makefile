@@ -1,9 +1,9 @@
 CC = g++#x86_64-w64-mingw32-g++
 
-CCFLAGS = -Wall -g -static#-static-libgcc -static-libstdc++
+CCFLAGS = -Wall -g#-static-libgcc -static-libstdc++
 
-TARGET = Cande.exe
-TARGET_DEL = Cande.exe
+TARGET = Cande
+TARGET_DEL = Cande
 
 SRCS = \
 src/main.cpp \
