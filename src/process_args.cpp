@@ -1,16 +1,12 @@
 #include "process_args.h"
-#include <cstdio>
 #include <cstdlib>
-#include <shellapi.h>
 #include <string.h>
 #include <string>
 #include <vector>
-#include <winuser.h>
 #include "SimpleIni.h"
 #include "stringh.h"
 #include "os.h"
 #include "cande.h"
-#include <windows.h>
 
 
 #define CANDE_CONFIGURATION_FAILED_TO_FETCH_FROM_INI "Failed to load \"CandeConfig.ini\" please create this file!\n"
@@ -34,7 +30,6 @@ int process_args(int arg_count,char *args[]) {
       }
 
       // If nothing is passed to cande the default behaviour should be to compile and execute.
-      
       return COMP_AND_EXEC_ARG;
 }
 
@@ -45,27 +40,27 @@ void execute_args(int arg_id) {
             printf("The current version of Cande is %s\n", get_cande_version());
       }
 
-      CandeConfig ccfg;
-      if (!TryGetCandeConfig(&ccfg)) { return; }
+      CandeConfig candeConfigFile;
+      if (!TryGetCandeConfig(&candeConfigFile)) { return; }
 
       if (arg_id == LIST_CPP_ARG) {
-            std::vector<std::string> files(get_all_files_with_extension_in_exec_folder(ccfg.FileEndingType.c_str()));
+            std::vector<std::string> files(get_all_files_with_extension_in_exec_folder(candeConfigFile.FileEndingType.c_str()));
             for (auto &f : files) {
                   printf("%s\n", f.c_str());
             }
       }
 
       if (arg_id == COMPILE_ARG) {
-            compile(&ccfg);
+            compile(&candeConfigFile);
       }
       
       if (arg_id == EXECUTE_ARG) {
-            execute(&ccfg);
+            execute(&candeConfigFile);
       }
 
       if (arg_id == COMP_AND_EXEC_ARG) {
-            compile(&ccfg);
-            execute(&ccfg);
+            compile(&candeConfigFile);
+            execute(&candeConfigFile);
       }
 }
 
@@ -96,16 +91,16 @@ void compile(CandeConfig *ccfg) {
       printf("Compiled executable to \"%s/%s\"\n", get_exec_path().c_str(), ccfg->ProjectName.c_str());
 }     
 
-void execute(CandeConfig *ccfg) {
+void execute(CandeConfig *candeConfigFile) {
 
       std::string exec_command_string;
       exec_command_string.append("start /WAIT /B ");
-      exec_command_string.append(ccfg->ProjectName);
+      exec_command_string.append(candeConfigFile->ProjectName);
       printf("Executed %s\n", exec_command_string.c_str());
       system(exec_command_string.c_str());
 }
 
-bool TryGetCandeConfig(CandeConfig *ccfg) {
+bool TryGetCandeConfig(CandeConfig *candeConfigFile) {
       std::string iniLoadPath = get_exec_path();
       iniLoadPath.append(CANDE_CONFIG_FILE_NAME);
 
@@ -116,34 +111,34 @@ bool TryGetCandeConfig(CandeConfig *ccfg) {
             return false;
       };
 
-      if (!IsIniValueNull(&ini, "CANDE_CONFIG", "COMPILER")) {
-            ccfg->Compiler = ini.GetValue("CANDE_CONFIG", "COMPILER"); 
-      } else {
+      if (IsIniValueNull(&ini, "CANDE_CONFIG", "COMPILER")) {
             return false;
+      } else {
+            candeConfigFile->Compiler = ini.GetValue("CANDE_CONFIG", "COMPILER"); 
       }
 
-      if (!IsIniValueNull(&ini, "CANDE_CONFIG", "COMPILER_FLAGS")) {
-            ccfg->CompilerFlags = ini.GetValue("CANDE_CONFIG", "COMPILER_FLAGS"); 
-      } else {
+      if (IsIniValueNull(&ini, "CANDE_CONFIG", "COMPILER_FLAGS")) {
             return false;
+      } else {
+            candeConfigFile->CompilerFlags = ini.GetValue("CANDE_CONFIG", "COMPILER_FLAGS"); 
       }
 
-      if (!IsIniValueNull(&ini, "CANDE_CONFIG", "COMPILER_INCLUDES")) {
-            ccfg->CompilerIncludes = ini.GetValue("CANDE_CONFIG", "COMPILER_INCLUDES"); 
-      } else {
+      if (IsIniValueNull(&ini, "CANDE_CONFIG", "COMPILER_INCLUDES")) {
             return false;
+      } else {
+            candeConfigFile->CompilerIncludes = ini.GetValue("CANDE_CONFIG", "COMPILER_INCLUDES"); 
       }
 
-      if (!IsIniValueNull(&ini, "CANDE_CONFIG", "PROJECT_NAME")) {
-            ccfg->ProjectName = ini.GetValue("CANDE_CONFIG", "PROJECT_NAME"); 
-      } else {
+      if (IsIniValueNull(&ini, "CANDE_CONFIG", "PROJECT_NAME")) {
             return false;
+      } else {
+            candeConfigFile->ProjectName = ini.GetValue("CANDE_CONFIG", "PROJECT_NAME"); 
       }
 
-      if (!IsIniValueNull(&ini, "CANDE_CONFIG", "FILE_TYPE")) {
-            ccfg->FileEndingType = ini.GetValue("CANDE_CONFIG", "FILE_TYPE"); 
-      } else {
+      if (IsIniValueNull(&ini, "CANDE_CONFIG", "FILE_TYPE")) {
             return false;
+      } else {
+            candeConfigFile->FileEndingType = ini.GetValue("CANDE_CONFIG", "FILE_TYPE"); 
       }
  
       return true;
