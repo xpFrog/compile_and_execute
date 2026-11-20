@@ -1,4 +1,4 @@
-Cande tries to be a replacement for Gnu Make. The executable for Cande is built using Cande itself. Instead of manually adding every source file Cande takes all files in the subfolders and compiles them into a exe and (optionally) executes it.
+Cande tries to be a replacement for Gnu Make. The executable for Cande is built using Cande itself. Instead of manually adding every source file Cande takes all files in the subfolders and compiles them into an exe and (optionally) executes it.
 
 In the CandeConfig.ini are the instruction to the program. There are a few different variables in this file.
 ```ini

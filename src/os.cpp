@@ -3,14 +3,12 @@
 #include <cstdlib>
 #include <string.h>
 #include <string>
-#include <cstdio>
 #include <filesystem>
 #include <vector>
 
 
-// TODO: Check on linux machine if it works there!
 std::string get_exec_path(void) {
-      return std::string(GetCurrentDir(NULL, 0));
+      return std::string(GET_CURRENT_DIR(NULL, 0));
 }
 
 std::vector<std::string> GetAllFilesWithExtensionInExecFolder(std::string file_ext) {

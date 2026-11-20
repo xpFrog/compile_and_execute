@@ -4,12 +4,14 @@
 #include <vector>
 #ifdef _WIN32
 #include "dirent.h"
-#define GetCurrentDir _getcwd
+#include "windows.h"
+#include <direct.h>
+#define GET_CURRENT_DIR _getcwd
 #define IS_WINDOWS 1
 #else
 #include <dirent.h>
 #include <unistd.h>
-#define GetCurrentDir getcwd
+#define GET_CURRENT_DIR getcwd
 #define IS_WINDOWS 0
 #endif
 

@@ -1,7 +1,6 @@
 #include "process_args.h"
 #include <cstdio>
 #include <cstdlib>
-#include <string.h>
 #include <string>
 #include <vector>
 #include "stringh.h"
@@ -115,7 +114,7 @@ void execute(CandeConfig *candeConfigFile) {
 bool TryGetCandeConfig(CandeConfig *candeConfigFile) {
       std::string iniLoadPath = get_exec_path();
       iniLoadPath.append(CANDE_CONFIG_FILE_NAME);
-      printf("%s\n", iniLoadPath.c_str());
+      //printf("%s\n", iniLoadPath.c_str());
 
 
       CSimpleIniA ini;
